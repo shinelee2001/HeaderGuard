@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "HeaderGuard",
+  "version": "0.1.0",
+  "description": "Analyze main-page HTTP security headers locally and explain browser-facing security signals.",
+  "minimum_chrome_version": "116",
+  "action": {
+    "default_title": "HeaderGuard",
+    "default_popup": "src/popup/popup.html"
+  },
+  "background": {
+    "service_worker": "src/background/service_worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "webRequest",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

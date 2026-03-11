@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>HeaderGuard</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section id="loading-state" class="state-card">
+        <div class="state-title">Loading analysis…</div>
+        <p class="state-text">
+          Reading the latest main-document header analysis for this tab.
+        </p>
+      </section>
+
+      <section id="error-state" class="state-card hidden" aria-live="polite">
+        <div class="state-title">Could not load analysis</div>
+        <p id="error-message" class="state-text">
+          An unexpected error occurred.
+        </p>
+      </section>
+
+      <section id="empty-state" class="state-card hidden" aria-live="polite">
+        <div class="state-title">No analysis available yet for this page.</div>
+        <p class="state-text">
+          Headers could not be observed for this response.
+        </p>
+        <p class="state-subtext">
+          This tool analyzes the main document response only.
+        </p>
+      </section>
+
+      <section id="app-content" class="hidden">
+        <header class="hero">
+          <div class="hero-top">
+            <div>
+              <p class="eyebrow">Current page</p>
+              <h1 id="site-origin" class="site-origin">—</h1>
+              <p id="site-url" class="site-url">—</p>
+            </div>
+
+            <div class="score-panel" aria-label="Overall score">
+              <div id="score-value" class="score-value">0</div>
+              <div id="grade-badge" class="grade-badge grade-f">F</div>
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <span id="scheme-chip" class="chip chip-neutral">scheme</span>
+            <span id="updated-at" class="chip chip-neutral">Analyzed just now</span>
+          </div>
+        </header>
+
+        <section class="card">
+          <div class="section-heading">
+            <h2>Summary</h2>
+          </div>
+          <p id="summary-text" class="summary-text">—</p>
+
+          <div class="subsection">
+            <h3>Top risks</h3>
+            <ul id="top-risks-list" class="risk-list"></ul>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-heading">
+            <h2>Findings</h2>
+            <span id="finding-count" class="muted-label">0 findings</span>
+          </div>
+          <div id="findings-list" class="findings-list"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-heading">
+            <h2>Raw headers</h2>
+          </div>
+
+          <details class="raw-headers-details">
+            <summary>Show raw response headers</summary>
+            <pre id="raw-headers-output" class="raw-headers-output"></pre>
+          </details>
+        </section>
+
+        <footer class="footer-note">
+          <p>
+            This extension analyzes response headers locally in your browser and
+            does not transmit browsing data to external servers.
+          </p>
+          <p>
+            Results are heuristic browser-signal analysis, not proof of a full
+            site security posture.
+          </p>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>
