@@ -8,7 +8,10 @@
     "clean": "node -e \"import('node:fs/promises').then(fs=>fs.rm('dist',{recursive:true,force:true}))\"",
     "typecheck": "tsc --noEmit",
     "build": "npm run clean && npm run typecheck && node ./scripts/build.mjs",
-    "watch": "node ./scripts/build.mjs --watch"
+    "watch": "node ./scripts/build.mjs --watch",
+    "baseline:collect": "esbuild scripts/collect-calibration-baseline.ts --bundle --platform=node --format=esm --outfile=generated/collect-calibration-baseline.mjs && node generated/collect-calibration-baseline.mjs",
+    "baseline:write": "esbuild scripts/write-calibration.ts --bundle --platform=node --format=esm --outfile=generated/write-calibration.mjs && node generated/write-calibration.mjs",
+    "baseline:refresh": "npm run baseline:collect && npm run baseline:write"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.314",

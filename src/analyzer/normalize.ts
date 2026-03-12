@@ -1,5 +1,26 @@
 import type { HeaderMap } from "./types";
 
+export type HeaderEntry = { name: string; value: string };
+
+export function normalizeHeaders(headerEntries: readonly HeaderEntry[]): HeaderMap {
+  const normalized: HeaderMap = {};
+
+  for (const header of headerEntries) {
+    if (!header?.name) continue;
+
+    const name = header.name.trim().toLowerCase();
+    const value = (header.value ?? "").trim();
+
+    if (!normalized[name]) {
+      normalized[name] = [];
+    }
+
+    normalized[name].push(value);
+  }
+
+  return normalized;
+}
+
 export function getHeaderValues(headers: HeaderMap, name: string): string[] {
   return headers[name.toLowerCase()] ?? [];
 }

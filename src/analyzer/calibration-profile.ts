@@ -1,3 +1,4 @@
+/* Test Template
 import type { CalibrationProfile } from "./calibration-types";
 
 export const DEFAULT_CALIBRATION_PROFILE: CalibrationProfile = {
@@ -20,3 +21,6 @@ export const DEFAULT_CALIBRATION_PROFILE: CalibrationProfile = {
     std: 15,
   },
 };
+*/
+
+export { DEFAULT_CALIBRATION_PROFILE } from "./calibration-baseline";
