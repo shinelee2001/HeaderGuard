@@ -132,6 +132,12 @@ summary {
   line-height: 1;
 }
 
+.score-sub {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.1;
+}
+
 .grade-badge {
   min-width: 42px;
   text-align: center;

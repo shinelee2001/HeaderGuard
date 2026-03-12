@@ -1,5 +1,8 @@
-import type { Finding, Grade } from "./types";
+import type { Finding, Grade, ScoreMode, ScoreResult } from "./types";
 import { clamp } from "./normalize";
+import { DEFAULT_CALIBRATION_PROFILE } from "./calibration-profile";
+import { applyCalibration } from "./calibration";
+
 
 export const SCORES = {
   CSP: 30,
@@ -19,7 +22,43 @@ export function toGrade(score: number): Grade {
   return "F";
 }
 
-export function computeTotalScore(findings: Finding[]): number {
+export function computeRawScore(findings: Finding[]): number {
   const rawScore = findings.reduce((sum, finding) => sum + finding.scoreEarned, 0);
   return clamp(Math.round(rawScore), 0, 100);
+}
+
+export function computeTotalScore(findings: Finding[]): number {
+  return computeRawScore(findings);
+}
+
+export function computeScoreResult(
+  findings: Finding[],
+  mode: ScoreMode = "calibrated",
+): ScoreResult {
+  const rawScore = computeRawScore(findings);
+
+  if (mode === "raw") {
+    return {
+      rawScore,
+      calibratedScore: rawScore,
+      grade: toGrade(rawScore),
+      mode: "raw",
+    };
+  }
+
+  const calibrated = applyCalibration(rawScore, DEFAULT_CALIBRATION_PROFILE);
+
+  return {
+    rawScore,
+    calibratedScore: calibrated.score,
+    grade: toGrade(calibrated.score),
+    mode: "calibrated",
+    calibrationMeta: {
+      profile: DEFAULT_CALIBRATION_PROFILE.profile,
+      method: DEFAULT_CALIBRATION_PROFILE.method,
+      baselineMean: DEFAULT_CALIBRATION_PROFILE.stats.mean,
+      baselineStd: DEFAULT_CALIBRATION_PROFILE.stats.std,
+      percentile: calibrated.percentile,
+    },
+  };
 }

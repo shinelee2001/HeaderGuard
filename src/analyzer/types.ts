@@ -12,6 +12,24 @@ export type FindingCategory = "tier1" | "tier2" | "informational";
 
 export type Grade = "A" | "B" | "C" | "D" | "F";
 
+export type ScoreMode = "raw" | "calibrated";
+
+export type ScoreCalibrationMeta = {
+  profile: string;
+  method: "zscore" | "percentile";
+  baselineMean: number;
+  baselineStd?: number;
+  percentile?: number;
+};
+
+export type ScoreResult = {
+  rawScore: number;
+  calibratedScore: number;
+  grade: Grade;
+  mode: ScoreMode;
+  calibrationMeta?: ScoreCalibrationMeta;
+};
+
 export type Finding = {
   key: string;
   title: string;
@@ -42,7 +60,10 @@ export type AnalysisResult = {
   origin: string;
   scheme: "http" | "https" | "other";
   score: number;
+  rawScore: number;
   grade: Grade;
+  scoreMode: ScoreMode;
+  calibrationMeta?: ScoreCalibrationMeta;
   summary: string;
   topRisks: string[];
   findings: Finding[];

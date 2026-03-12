@@ -14,6 +14,7 @@ const siteOriginEl = mustGetById("site-origin");
 const siteUrlEl = mustGetById("site-url");
 const scoreValueEl = mustGetById("score-value");
 const gradeBadgeEl = mustGetById("grade-badge");
+const scoreSubEl = mustGetById("score-sub");
 const schemeChipEl = mustGetById("scheme-chip");
 const updatedAtEl = mustGetById("updated-at");
 const summaryTextEl = mustGetById("summary-text");
@@ -61,6 +62,7 @@ function renderAnalysis(result: AnalysisResult): void {
   siteUrlEl.textContent = result.url;
 
   scoreValueEl.textContent = String(result.score);
+  scoreSubEl.textContent = `Raw: ${result.rawScore}/100`;
   applyGradeBadge(result.grade);
 
   schemeChipEl.textContent = result.scheme.toUpperCase();

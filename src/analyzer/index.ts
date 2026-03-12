@@ -1,5 +1,5 @@
 import type { AnalysisResult, AnalyzeHeadersInput, Finding } from "./types";
-import { computeTotalScore, toGrade } from "./scoring";
+import { computeScoreResult } from "./scoring";
 import { buildSummary, buildTopRisks } from "./summary";
 import { analyzeCsp } from "./rules/csp";
 import { analyzeHsts } from "./rules/hsts";
@@ -23,8 +23,8 @@ function runAllRules(input: AnalyzeHeadersInput): Finding[] {
 
 export function analyzeHeaders(input: AnalyzeHeadersInput): AnalysisResult {
   const findings = runAllRules(input);
-  const score = computeTotalScore(findings);
-  const grade = toGrade(score);
+  const scoreResult = computeScoreResult(findings);
+  const score = scoreResult.calibratedScore;
   const summary = buildSummary(score, findings);
   const topRisks = buildTopRisks(findings);
 
@@ -36,7 +36,10 @@ export function analyzeHeaders(input: AnalyzeHeadersInput): AnalysisResult {
     origin: input.origin,
     scheme: input.scheme,
     score,
-    grade,
+    rawScore: scoreResult.rawScore,
+    grade: scoreResult.grade,
+    scoreMode: scoreResult.mode,
+    calibrationMeta: scoreResult.calibrationMeta,
     summary,
     topRisks,
     findings,
